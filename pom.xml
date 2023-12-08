@@ -23,6 +23,7 @@
     		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
    		<sonar.language>java</sonar.language>
+		<aws-secretsmanager-jdbc.version>1.0.5</aws-secretsmanager-jdbc.version>
 	</properties>
 
 	<dependencies>
@@ -82,13 +83,10 @@
 		</dependency>
 		
                 <dependency>
-                   <groupId>com.amazonaws</groupId>
-                   <artifactId>aws-java-sdk-bom</artifactId>
-                   <version>1.11.1000</version>
-                   <type>pom</type>
-                   <scope>import</scope>
-                 </dependency>
-             
+                    <groupId>com.amazonaws.secretsmanager</groupId>
+                    <artifactId>aws-secretsmanager-jdbc</artifactId>
+                    <version>${aws-secretsmanager-jdbc.version}</version>
+                </dependency>
 
 	</dependencies>
 
