@@ -80,13 +80,15 @@
 		    <artifactId>jacoco-maven-plugin</artifactId>
 		    <version>0.8.6</version>
 		</dependency>
-		<dependency>
-                    <groupId>software.amazon.awssdk</groupId>
-                    <artifactId>aws-sdk-bom</artifactId>
-                    <version>2.x.x</version>
-                    <type>pom</type>
-                    <scope>import</scope>
+		
+                <dependency>
+                   <groupId>com.amazonaws</groupId>
+                   <artifactId>aws-java-sdk-bom</artifactId>
+                   <version>1.11.1000</version>
+                   <type>pom</type>
+                   <scope>import</scope>
                  </dependency>
+             
 
 	</dependencies>
 
