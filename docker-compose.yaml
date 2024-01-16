@@ -18,7 +18,7 @@ services:
     container_name: springboot-packers-movers
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile1
     ports:
       - "8081:8081"
     depends_on:
