@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/customer")
 @CrossOrigin
 
 public class PackersMoversController {
