@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/driver")
 @CrossOrigin
 
 public class PackersMoversController {
@@ -30,12 +30,12 @@ public class PackersMoversController {
         
         
         @GetMapping("/ping")
-        public String ping() {  return "Hi, this is psandeepkomal" ;
+        public String ping() {  return "Hi, this is Driver micro service " ;
         			
         }
         
         @GetMapping("/version")
-        public String demo() {  return "Currently the version 2 is deployed and working on version 2.0" ;
+        public String demo() {  return "Currently the version 1 is deployed and working on version 2.0" ;
         			
         }        
 
