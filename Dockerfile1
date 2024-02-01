@@ -8,3 +8,7 @@ FROM amazoncorretto:17-alpine
 COPY --from=build1 /java/target/customer-0.0.1.jar /java/customer-0.0.1.jar
 EXPOSE 8081
 ENTRYPOINT ["java","-jar","/java/customer-0.0.1.jar"]
+
+
+
+
