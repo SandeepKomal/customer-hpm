@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: customer
-        image: 800896686102.dkr.ecr.us-east-1.amazonaws.com/pskp1:44
+        image: 800896686102.dkr.ecr.us-east-1.amazonaws.com/spring:44
         imagePullPolicy: Always
         ports:
         - containerPort: 8081
