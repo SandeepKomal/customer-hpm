@@ -35,7 +35,7 @@ public class PackersMoversController {
         }
         
         @GetMapping("/version")
-        public String demo() {  return "Currently the version 1 is deployed and working on version 2.0" ;
+        public String demo() {  return "Currently the version 2 is deployed and working on version 2.0" ;
         			
         }        
 
