@@ -42,7 +42,7 @@ jobs:
     - name: Push Docker image to AWS ECR
       run: |
         IMAGE_TAG=$(echo ${{ steps.build-docker-image.outputs.IMAGE_TAG }})
-        REPO_URI=800896686102.dkr.ecr.us-east-1.amazonaws.com/pskp1:${IMAGE_TAG}
+        REPO_URI=800896686102.dkr.ecr.us-east-1.amazonaws.com/spring:${IMAGE_TAG}
         docker tag pskp1:${IMAGE_TAG} $REPO_URI
         docker push $REPO_URI
 
