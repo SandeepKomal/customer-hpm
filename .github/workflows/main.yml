@@ -10,9 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      AWS_DEFAULT_REGION: "us-east-1"
+      AWS_ACCOUNT_ID: "637423236688"
+      IMAGE_NAME: "spring"
+      REPO_URI: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${IMAGE_TAG}"
+      # IMAGE_TAG: "${GITHUB_RUN_NUMBER}"
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      
       
 
     steps:
@@ -33,23 +40,27 @@ jobs:
     - name: Build Docker image
       run: |
         IMAGE_TAG=$(date +%s)
-        docker build -t pskp1:${IMAGE_TAG} .
+        docker build -t spring:${IMAGE_TAG} .
         echo "::set-output name=IMAGE_TAG::$IMAGE_TAG"
 
     - name: Log in to AWS ECR
       run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 800896686102.dkr.ecr.us-east-1.amazonaws.com
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 637423236688.dkr.ecr.us-east-1.amazonaws.com
 
     - name: Push Docker image to AWS ECR
       run: |
         IMAGE_TAG=$(echo ${{ steps.build-docker-image.outputs.IMAGE_TAG }})
-        REPO_URI=637423236688.dkr.ecr.us-east-1.amazonaws.com/spring:${IMAGE_TAG}
+        REPO_URI=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${IMAGE_TAG}
         docker tag spring:${IMAGE_TAG} $REPO_URI
         docker push $REPO_URI
 
-    - name: Deploy to Kubernetes
-      uses: stefanzweifel/k8s-action@v2.0.0
-      with:
-        args: apply -f kubernetes/
+    - name: Set image using Kustomize
+      run: |
+         kustomize edit set image ${REPOSITORY_URI}
+    - name: Apply Kubernetes manifests
+      run: |
+         kubectl apply -k .
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
+ 
+
