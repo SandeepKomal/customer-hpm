@@ -13,6 +13,7 @@ jobs:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
 
     steps:
     - name: Checkout code
@@ -42,8 +43,8 @@ jobs:
     - name: Push Docker image to AWS ECR
       run: |
         IMAGE_TAG=$(echo ${{ steps.build-docker-image.outputs.IMAGE_TAG }})
-        REPO_URI=800896686102.dkr.ecr.us-east-1.amazonaws.com/spring:${IMAGE_TAG}
-        docker tag pskp1:${IMAGE_TAG} $REPO_URI
+        REPO_URI=637423236688.dkr.ecr.us-east-1.amazonaws.com/spring:${IMAGE_TAG}
+        docker tag spring:${IMAGE_TAG} $REPO_URI
         docker push $REPO_URI
 
     - name: Deploy to Kubernetes
