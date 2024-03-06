@@ -21,7 +21,7 @@ jobs:
     - name: Setup Java JDK
       uses: actions/setup-java@v1
       with:
-        java-version: 12
+        java-version: 17
 
     - name: SonarQube Scan
       run: mvn clean verify sonar:sonar -Dsonar.token=${{ env.SONAR_TOKEN }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=tektrio -Dsonar.projectKey=tektrio_customer2
