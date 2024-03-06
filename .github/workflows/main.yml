@@ -1,0 +1,54 @@
+name: Java App CI/CD with Sonar, Docker, AWS ECR, and Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Java JDK
+      uses: actions/setup-java@v1
+      with:
+        java-version: 12
+
+    - name: SonarQube Scan
+      run: mvn clean verify sonar:sonar -Dsonar.token=${{ env.SONAR_TOKEN }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=tektrio -Dsonar.projectKey=tektrio_customer2
+
+    - name: Build Jar file
+      run: mvn clean install
+
+    - name: Build Docker image
+      run: |
+        IMAGE_TAG=$(date +%s)
+        docker build -t pskp1:${IMAGE_TAG} .
+        echo "::set-output name=IMAGE_TAG::$IMAGE_TAG"
+
+    - name: Log in to AWS ECR
+      run: |
+        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 800896686102.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Push Docker image to AWS ECR
+      run: |
+        IMAGE_TAG=$(echo ${{ steps.build-docker-image.outputs.IMAGE_TAG }})
+        REPO_URI=800896686102.dkr.ecr.us-east-1.amazonaws.com/pskp1:${IMAGE_TAG}
+        docker tag pskp1:${IMAGE_TAG} $REPO_URI
+        docker push $REPO_URI
+
+    - name: Deploy to Kubernetes
+      uses: stefanzweifel/k8s-action@v2.0.0
+      with:
+        args: apply -f kubernetes/
+      env:
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
