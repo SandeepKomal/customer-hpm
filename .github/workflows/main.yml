@@ -13,7 +13,7 @@ jobs:
       AWS_DEFAULT_REGION: "us-east-1"
       AWS_ACCOUNT_ID: "637423236688"
       IMAGE_NAME: "spring"
-      IMAGE_TAG: "${{ github.run_number }}"
+      IMAGE_TAG: $(date +%s)
       REPO_URI: "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}:${IMAGE_TAG}"
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
